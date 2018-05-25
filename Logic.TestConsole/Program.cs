@@ -14,10 +14,8 @@ namespace Logic.TestConsole
                 list.Add(new Product("Sony", new Random().NextDecimal()));
                 list.Add(new Product("Canon", new Random().NextDecimal()));
             }
-
-            ProductService service = new ProductService(list);
-
-            IEnumerable<Product> result = service.FindCheapest("Philips");
+            
+            IEnumerable<Product> result = ProductService.FindCheapest(list, "Philips");
             var count = 0;
             foreach(var item in result)
             {

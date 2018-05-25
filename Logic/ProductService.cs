@@ -2,43 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 
+// Очевидный способ, из списка элементов выбираем элементы с нужным нам наименованием,
+// далее находим минимальную стоимость для данного наименования, и достаем все, 
+// для которых стоимость совпадает с минимальной. 
+
 namespace Logic
 {
-    public class ProductService
+    public static class ProductService
     {
-        #region Fields and properties
-
-        private List<Product> products;
-
-        public List<Product> Products
-        {
-            get
-            {
-                return products;
-            }
-
-            set
-            {
-                if(ReferenceEquals(value, null))
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                products = value;
-            }
-        }
-
-        #endregion
-
-        #region Constructors
-
-        public ProductService(List<Product> products)
-        {
-            this.products = products ?? throw new ArgumentNullException(nameof(products));
-        }
-
-        #endregion
-
         #region API
 
         /// <summary>
@@ -50,7 +21,7 @@ namespace Logic
         /// <returns>
         /// IEnumerable of elements
         /// </returns>
-        public IEnumerable<Product> FindCheapest(string name)
+        public static IEnumerable<Product> FindCheapest(List<Product> products, string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -59,7 +30,7 @@ namespace Logic
 
             Product prod = new Product(name, 1m);
 
-            return FindCheapestProducts(prod);
+            return FindCheapestProducts(products, prod);
         }
 
         /// <summary>
@@ -71,14 +42,14 @@ namespace Logic
         /// <returns>
         /// IEnumerable of elements
         /// </returns>
-        public IEnumerable<Product> FindCheapest(Product product)
+        public static IEnumerable<Product> FindCheapest(List<Product> products, Product product)
         {
             if(ReferenceEquals(product, null))
             {
                 throw new ArgumentNullException(nameof(product));
             }
 
-            return FindCheapestProducts(product);
+            return FindCheapestProducts(products, product);
         }
 
         #endregion
@@ -94,7 +65,7 @@ namespace Logic
         /// <returns>
         /// IEnumerable of products with the same name as parameter has
         /// </returns>
-        private IEnumerable<Product> FindSameNamedProducts(Product product)
+        private static IEnumerable<Product> FindSameNamedProducts(List<Product> products, Product product)
         {
             if (ReferenceEquals(product, null))
             {
@@ -115,14 +86,14 @@ namespace Logic
         /// <returns>
         /// IEnumerable of products
         /// </returns>
-        private IEnumerable<Product> FindCheapestProducts(Product product)
+        private static IEnumerable<Product> FindCheapestProducts(List<Product> products, Product product)
         {
             if (ReferenceEquals(product, null))
             {
                 throw new ArgumentException(nameof(product));
             }
 
-            IEnumerable<Product> sameNamedProducts = FindSameNamedProducts(product);
+            IEnumerable<Product> sameNamedProducts = FindSameNamedProducts(products, product);
             decimal cheapestPrice = sameNamedProducts.Min(prod => prod.Coast);
 
             foreach (var item in sameNamedProducts)
