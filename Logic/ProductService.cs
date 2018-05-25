@@ -41,6 +41,15 @@ namespace Logic
 
         #region API
 
+        /// <summary>
+        /// API for finding cheapest elements
+        /// </summary>
+        /// <param name="name">
+        /// name of element
+        /// </param>
+        /// <returns>
+        /// IEnumerable of elements
+        /// </returns>
         public IEnumerable<Product> FindCheapest(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -48,11 +57,20 @@ namespace Logic
                 throw new ArgumentException($"{nameof(name)} is null or empty");
             }
 
-            Product prod = new Product(name, 0);
+            Product prod = new Product(name, 1m);
 
             return FindCheapestProducts(prod);
         }
 
+        /// <summary>
+        /// API for finding cheapest elements
+        /// </summary>
+        /// <param name="name">
+        /// name of element
+        /// </param>
+        /// <returns>
+        /// IEnumerable of elements
+        /// </returns>
         public IEnumerable<Product> FindCheapest(Product product)
         {
             if(ReferenceEquals(product, null))

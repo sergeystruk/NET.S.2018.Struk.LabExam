@@ -1,10 +1,13 @@
 ﻿namespace Logic
 {
-    public class SimpleGenerator : IGenerator
+    /// <summary>
+    /// Class for generating ID for product
+    /// </summary>
+    public static class SimpleIDGenerator
     {
         private static int Id = 0;
 
-        public int Generate()
+        public static int Generate()
         {
             return Id++;
         }
